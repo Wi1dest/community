@@ -2,6 +2,8 @@ package com.lsy.community.service;
 
 import com.lsy.community.entity.User;
 
+import java.util.Map;
+
 /**
  * @Author : Lo Shu-ngan
  * @Classname UserService
@@ -10,4 +12,8 @@ import com.lsy.community.entity.User;
  */
 public interface UserService {
     User findUserById(int id);
+
+    Map<String,Object> register(User user);
+
+    int activation(int userId,String code);
 }
