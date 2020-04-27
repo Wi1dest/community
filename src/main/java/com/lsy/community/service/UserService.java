@@ -1,5 +1,6 @@
 package com.lsy.community.service;
 
+import com.lsy.community.entity.LoginTicket;
 import com.lsy.community.entity.User;
 
 import java.util.Map;
@@ -20,4 +21,6 @@ public interface UserService {
     Map<String,Object> login(String username,String password,int expiredSeconds);
 
     void logout(String ticket);
+
+    LoginTicket findLoginTicket(String ticket);
 }

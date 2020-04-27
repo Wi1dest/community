@@ -103,7 +103,7 @@ public class UserServiceImpl implements UserService {
         /*激活码*/
         user.setActivationCode(CommunityUtil.generateUUID());
         /*设置默认头像,随机整数会替换占位符%里的数字*/
-        user.setHeaderUrl(String.format("http://image.nowcoder.com/head/%dt.png",new Random().nextInt(1000)));
+        user.setHeaderUrl(String.format("http://images.nowcoder.com/head/%dt.png",new Random().nextInt(1000)));
         /*设置注册时间*/
         user.setCreateTime(new Date());
         userMapper.insertUser(user);
@@ -198,5 +198,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public void logout(String ticket) {
         loginTicketMapper.updateStatus(ticket,1);
+    }
+
+    /**
+     * 通过ticket查询登录信息
+     * @param ticket
+     * @return
+     */
+    @Override
+    public LoginTicket findLoginTicket(String ticket) {
+        return loginTicketMapper.selectByTicket(ticket);
     }
 }
