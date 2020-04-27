@@ -1,5 +1,6 @@
 package com.lsy.community.controller;
 
+import com.lsy.community.annotation.LoginRequired;
 import com.lsy.community.entity.User;
 import com.lsy.community.service.UserService;
 import com.lsy.community.util.CommunityUtil;
@@ -52,6 +53,7 @@ public class UserController {
      * @return
      */
     @GetMapping("/setting")
+    @LoginRequired
     public String getSettingPage(){
         return "/site/setting";
     }
@@ -63,6 +65,7 @@ public class UserController {
      * @return
      */
     @PostMapping("/upload")
+    @LoginRequired
     public String uploadHeader(MultipartFile headerImage, Model model){
         if (headerImage == null) {
             model.addAttribute("error","您还没有选择图片");
