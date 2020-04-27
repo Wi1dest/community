@@ -209,4 +209,15 @@ public class UserServiceImpl implements UserService {
     public LoginTicket findLoginTicket(String ticket) {
         return loginTicketMapper.selectByTicket(ticket);
     }
+
+    /**
+     * 设置头像
+     * @param userId
+     * @param headerUrl
+     * @return
+     */
+    @Override
+    public int updateHeader(int userId, String headerUrl) {
+        return userMapper.updateHeader(userId,headerUrl);
+    }
 }

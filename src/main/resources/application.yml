@@ -27,6 +27,7 @@ mybatis:
 community:
   path:
     domain: http://localhost:4025
+    upload: d:/work/data/upload
 
 server:
   port: 4025
