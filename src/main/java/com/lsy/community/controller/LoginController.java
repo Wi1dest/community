@@ -4,14 +4,18 @@ import com.google.code.kaptcha.Producer;
 import com.lsy.community.entity.User;
 import com.lsy.community.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.imageio.ImageIO;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
@@ -19,8 +23,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Map;
 
-import static com.lsy.community.util.CommunityConstant.ACTIVATION_REPEAT;
-import static com.lsy.community.util.CommunityConstant.ACTIVATION_SUCCESS;
+import static com.lsy.community.util.CommunityConstant.*;
 
 /**
  * @Author : Lo Shu-ngan
@@ -36,6 +39,9 @@ public class LoginController {
 
     @Autowired
     private Producer kaptchaProducer;
+
+    @Value("${server.servlet.context-path}")
+    private String contextPath;
 
     /**
      * 获取注册界面
@@ -121,6 +127,55 @@ public class LoginController {
         } catch (IOException e) {
             log.error("相应验证码失败: " + e.getMessage());
         }
+    }
+
+    /**
+     *
+     * @param username 用户名
+     * @param password 密码
+     * @param code 验证码
+     * @param rememberme 是否记住我
+     * @param model model模型
+     * @param session 我们在上面把验证码放在了session中,所以需要从session中取出验证码
+     * @param response 我们需要把ticket放入cookie 传给客户端
+     * @return
+     */
+    @PostMapping("/login")
+    public String login(String username,String password,String code,boolean rememberme,
+                        Model model,HttpSession session,HttpServletResponse response){
+        //检查验证码
+        String kaptcha = (String) session.getAttribute("kaptcha");
+        // equalsIgnoreCase可以忽略验证码大小写
+        if (StringUtils.isBlank(kaptcha) || StringUtils.isBlank(code) || !kaptcha.equalsIgnoreCase(code)){
+            model.addAttribute("codeMsg","验证码不正确!");
+            return "/site/login";
+        }
+
+        //检查账号密码
+        int expiredSeconds = rememberme ? REMEMBER_EXPIRED_SECONDS : DEFAULT_EXPIRED_SECONDS;
+        Map<String,Object> map = userService.login(username,password,expiredSeconds);
+        /*containsKey => map包好ticket*/
+        if (map.containsKey("ticket")){
+             /*cookie的名字和值*/
+            Cookie cookie = new Cookie("ticket",map.get("ticket").toString());
+             /*cookie生效范围*/
+            cookie.setPath(contextPath);
+             /*cookie最大时长*/
+            cookie.setMaxAge(expiredSeconds);
+             /*放入response*/
+            response.addCookie(cookie);
+            return "redirect:/index";
+        }else {
+            model.addAttribute("usernameMsg",map.get("usernameMsg"));
+            model.addAttribute("passwordMsg",map.get("passwordMsg"));
+            return "/site/login";
+        }
+    }
+
+    @GetMapping("/logout")
+    public String logout(@CookieValue("ticket")String ticket){
+        userService.logout(ticket);
+        return "redirect:/login";
     }
 
 }
