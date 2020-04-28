@@ -3,7 +3,7 @@ package com.lsy.community.controller;
 import com.lsy.community.entity.DiscussPost;
 import com.lsy.community.entity.Page;
 import com.lsy.community.entity.User;
-import com.lsy.community.service.DisussPostService;
+import com.lsy.community.service.DiscussPostService;
 import com.lsy.community.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,16 +27,16 @@ public class HomeController {
     private UserService userService;
 
     @Autowired
-    private DisussPostService disussPostService;
+    private DiscussPostService discussPostService;
 
     @GetMapping("/index")
     public String getIndexPage(Model model, Page page){
         // 方法调用之前,SpringMVC会自动实例化model和page,而且还会将page注入model
         // 所以在thymeleat中可以直接访问page对象重点呢数据
-        page.setRows(disussPostService.findDiscussPostRow(0));
+        page.setRows(discussPostService.findDiscussPostRow(0));
         page.setPath("/index");
 
-        List<DiscussPost> list = disussPostService.findDiscussPosts(0, page.getOffset(), page.getLimit());
+        List<DiscussPost> list = discussPostService.findDiscussPosts(0, page.getOffset(), page.getLimit());
         List<Map<String,Object>> discussPosts = new ArrayList<>();
         if (list != null) {
             for (DiscussPost disussPost : list){

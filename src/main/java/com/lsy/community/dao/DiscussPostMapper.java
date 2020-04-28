@@ -14,11 +14,12 @@ import java.util.List;
 public interface DiscussPostMapper {
     List<DiscussPost> selectDiscssPosts(int userId, int offset, int limit);
 
-
     /**
-     * 用于给参数取别名,如果只有一个参数,并且在<if>里使用就必须加别名
+     * @Param用于给参数取别名,如果只有一个参数,并且在<if>里使用就必须加别名
      * @param userId
      * @return
      */
     int selectDiscussPostRows(@Param("userId") int userId);
+
+    int insertDiscussPost (DiscussPost discussPost);
 }
