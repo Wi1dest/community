@@ -11,7 +11,9 @@ import java.util.List;
  * @Date 2020/04/29 14:17
  */
 public interface CommentService {
-    List<Comment>  findCommentByEntity(int entityType,int entityId,int offset,int limit);
+    List<Comment>  findCommentsByEntity(int entityType,int entityId,int offset,int limit);
 
     int findCommentCount(int entityType,int entityId);
+
+    int addComment(Comment comment);
 }

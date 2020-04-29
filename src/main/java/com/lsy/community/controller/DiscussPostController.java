@@ -77,7 +77,7 @@ public class DiscussPostController {
         //评论:给帖子的评论
         //回复:给评论的评论
         //评论的列表
-        List<Comment> commentList = commentService.findCommentByEntity(ENTITY_TYPE_POST, discussPost.getId(), page.getOffset(), page.getLimit());
+        List<Comment> commentList = commentService.findCommentsByEntity(ENTITY_TYPE_POST, discussPost.getId(), page.getOffset(), page.getLimit());
         //评论的VO列表
         List<Map<String,Object>> commentVoList = new ArrayList<>();
         if (commentVoList != null) {
@@ -89,7 +89,7 @@ public class DiscussPostController {
                 //作者
                 commentVo.put("user",userService.findUserById(comment.getUserId()));
                 //回复列表
-                List<Comment> replyList = commentService.findCommentByEntity(ENTITY_TYPE_COMMENT, comment.getId(), 0, Integer.MAX_VALUE);
+                List<Comment> replyList = commentService.findCommentsByEntity(ENTITY_TYPE_COMMENT, comment.getId(), 0, Integer.MAX_VALUE);
                 //回复VO列表
                 List<Map<String,Object>> replyVoList = new ArrayList<>();
                 if (replyList != null) {

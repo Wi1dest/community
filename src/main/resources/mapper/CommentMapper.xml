@@ -8,7 +8,17 @@
         entity_id,
         target_id,
         content,
-        `status`,
+        status,
+        create_time
+    </sql>
+
+    <sql id="insertFields">
+        user_id,
+        entity_type,
+        entity_id,
+        target_id,
+        content,
+        status,
         create_time
     </sql>
 
@@ -29,6 +39,11 @@
         and entity_type = #{entityType}
         and entity_id = #{entityId}
     </select>
+
+    <insert id="insertComment">
+        insert into comment(<include refid="insertFields"></include>)
+        values (#{userId},#{entityType},#{entityId},#{targetId},#{content},#{status},#{createTime})
+    </insert>
 
 
 </mapper>
