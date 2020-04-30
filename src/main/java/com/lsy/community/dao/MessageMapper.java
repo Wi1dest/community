@@ -49,4 +49,19 @@ public interface MessageMapper {
      * @return
      */
     int selectLetterUnreadCount(int userId,String conversationId);
+
+    /**
+     * 新增消息
+     * @param message
+     * @return
+     */
+    int insertMessage(Message message);
+
+    /**
+     * 修改消息状态
+     * @param ids
+     * @param status
+     * @return
+     */
+    int updateStatus(List<Integer> ids,int status);
 }

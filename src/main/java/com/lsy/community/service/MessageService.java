@@ -20,4 +20,8 @@ public interface MessageService {
     int findLetterCount(String conversationId);
 
     int findLetterUnreadCount(int userId,String conversationId);
+
+    int addMessage(Message message);
+
+    int readMessage(List<Integer> ids);
 }

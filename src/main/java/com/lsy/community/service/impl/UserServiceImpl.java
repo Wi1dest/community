@@ -220,4 +220,9 @@ public class UserServiceImpl implements UserService {
     public int updateHeader(int userId, String headerUrl) {
         return userMapper.updateHeader(userId,headerUrl);
     }
+
+    @Override
+    public User findUserByUsername(String username) {
+        return userMapper.selectByName(username);
+    }
 }
