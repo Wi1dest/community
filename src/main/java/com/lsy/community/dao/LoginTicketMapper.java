@@ -1,17 +1,13 @@
 package com.lsy.community.dao;
 
-import com.lsy.community.entity.LoginTicket;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
-
 /**
  * @Author : Lo Shu-ngan
  * @Classname LoginTicketMapper
  * @Description 登录凭证Mapper类
  * @Date 2020/04/27 14:20
  */
+// 不推荐使用
+/*@Deprecated
 public interface LoginTicketMapper {
     @Insert({"insert into login_ticket(user_id,ticket,status,expired) ",
             "values (#{userId} ,#{ticket} ,#{status} ,#{expired} )"})
@@ -24,4 +20,4 @@ public interface LoginTicketMapper {
 
     @Update({"update login_ticket set status = #{status} where ticket = #{ticket}"})
     int updateStatus(String ticket,int status);
-}
+}*/

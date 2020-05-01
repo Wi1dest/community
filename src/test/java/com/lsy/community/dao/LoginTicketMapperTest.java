@@ -1,11 +1,6 @@
 package com.lsy.community.dao;
 
-import com.lsy.community.entity.LoginTicket;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.Date;
 
 /**
  * @Author : Lo Shu-ngan
@@ -16,7 +11,7 @@ import java.util.Date;
 @SpringBootTest
 class LoginTicketMapperTest {
 
-    @Autowired
+   /* @Autowired
     private LoginTicketMapper loginTicketMapper;
 
     @Test
@@ -39,5 +34,5 @@ class LoginTicketMapperTest {
     void updateStatus() {
         int asfasfsafaf = loginTicketMapper.updateStatus("asfasfsafaf", 0);
         System.out.println(asfasfsafaf);
-    }
+    }*/
 }
