@@ -1,5 +1,8 @@
 package com.lsy.community.service;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * @Author : Lo Shu-ngan
  * @Classname FollowService
@@ -16,4 +19,8 @@ public interface FollowService {
     long findFollowerCount(int entityType,int entityId);
 
     boolean hasFollowed(int userId, int entityType,int entityId);
+
+    List<Map<String,Object>> findFollowees(int userId,int offset,int limit);
+
+    List<Map<String,Object>> findFollowers(int userId,int offset,int limit);
 }
