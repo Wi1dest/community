@@ -13,6 +13,13 @@ spring:
     username: 1744969381@qq.com
     password: vclvankureuzcjcf
     protocol: smtps
+  redis:
+    # Redis数据库索引（默认为0）
+    database: 11
+    # Redis服务器地址
+    host: localhost
+    # Redis服务器连接端口
+    port: 6379
 
 mybatis:
   #这里是实体类所在的包
@@ -24,12 +31,13 @@ mybatis:
     map-underscore-to-camel-case: true
     # 可将自动生成的主键id返回(eg:我们可在user刚执行完插入保证后下一步直接user.getId()获取id值)
     useGeneratedKeys: true
-community:
-  path:
-    domain: http://localhost:4025
-    upload: d:/work/data/upload
 
 server:
   port: 4025
   servlet:
     context-path: /community
+
+community:
+  path:
+    domain: http://localhost:4025
+    upload: d:/work/data/upload

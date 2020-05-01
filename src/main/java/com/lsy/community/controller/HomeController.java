@@ -4,6 +4,7 @@ import com.lsy.community.entity.DiscussPost;
 import com.lsy.community.entity.Page;
 import com.lsy.community.entity.User;
 import com.lsy.community.service.DiscussPostService;
+import com.lsy.community.service.LikeService;
 import com.lsy.community.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.lsy.community.util.CommunityConstant.ENTITY_TYPE_POST;
 
 /**
  * @Author : Lo Shu-ngan
@@ -28,6 +31,9 @@ public class HomeController {
 
     @Autowired
     private DiscussPostService discussPostService;
+
+    @Autowired
+    private LikeService likeService;
 
     @GetMapping("/index")
     public String getIndexPage(Model model, Page page){
@@ -44,6 +50,11 @@ public class HomeController {
                 map.put("post",disussPost);
                 User user = userService.findUserById(disussPost.getUserId());
                 map.put("user",user);
+
+                //查询赞数量
+                long likeCount = likeService.findEntityLikeCount(ENTITY_TYPE_POST, disussPost.getId());
+                map.put("likeCount",likeCount);
+
                 discussPosts.add(map);
             }
         }
