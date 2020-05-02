@@ -49,7 +49,7 @@ public class EventConsumer {
         message.setCreateTime(new Date());
 
         Map<String,Object> content = new HashMap<>();
-        content.put("useId",event.getUserId());
+        content.put("userId",event.getUserId());
         content.put("entityType",event.getEntityType());
         content.put("entityId",event.getEntityId());
         if (!event.getData().isEmpty()){
