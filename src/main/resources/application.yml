@@ -20,6 +20,14 @@ spring:
     host: localhost
     # Redis服务器连接端口
     port: 6379
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: community-consumer-group
+      enable-auto-commit: true
+      auto-commit-interval: 3000
+    listener:
+      missing-topics-fatal: false
 
 mybatis:
   #这里是实体类所在的包

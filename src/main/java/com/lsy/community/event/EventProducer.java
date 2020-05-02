@@ -1,0 +1,28 @@
+package com.lsy.community.event;
+
+import com.alibaba.fastjson.JSONObject;
+import com.lsy.community.entity.Event;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.stereotype.Component;
+
+/**
+ * @Author : Lo Shu-ngan
+ * @Classname EventProducer
+ * @Description kafka生产者
+ * @Date 2020/05/02 17:33
+ */
+@Component
+public class EventProducer {
+    @Autowired
+    private KafkaTemplate kafkaTemplate;
+
+    /**
+     * 处理事件
+     * @param event
+     */
+    public void fireEvent(Event event){
+        // 将事件发布到指定主题
+        kafkaTemplate.send(event.getTopic(), JSONObject.toJSONString(event));
+    }
+}

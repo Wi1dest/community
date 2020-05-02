@@ -1,7 +1,9 @@
 package com.lsy.community.controller;
 
+import com.lsy.community.entity.Event;
 import com.lsy.community.entity.Page;
 import com.lsy.community.entity.User;
+import com.lsy.community.event.EventProducer;
 import com.lsy.community.service.FollowService;
 import com.lsy.community.service.UserService;
 import com.lsy.community.util.CommunityUtil;
@@ -18,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.lsy.community.util.CommunityConstant.ENTITY_TYPE_USER;
+import static com.lsy.community.util.CommunityConstant.TOPIC_FOLLOW;
 
 /**
  * @Author : Lo Shu-ngan
@@ -33,12 +36,23 @@ public class FollowController {
     private HostHolder hostHolder;
     @Autowired
     private UserService userService;
+    @Autowired
+    private EventProducer eventProducer;
 
     @PostMapping("/follow")
     @ResponseBody
     public String follow(int entityType,int entityId){
         User user = hostHolder.getUser();
         followService.follow(user.getId(),entityType,entityId);
+        //触发关注事件
+        Event event = new Event()
+                .setTopic(TOPIC_FOLLOW)
+                .setUserId(hostHolder.getUser().getId())
+                .setEntityType(entityType)
+                .setEntityId(entityId)
+                .setEntityUserId(entityId);
+        eventProducer.fireEvent(event);
+
         return CommunityUtil.getJSONString(0,"已关注!");
     }
 
