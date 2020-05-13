@@ -24,6 +24,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.UUID;
 
 import static com.lsy.community.util.CommunityConstant.ENTITY_TYPE_USER;
 
@@ -168,4 +169,6 @@ public class UserController {
 
         return "/site/profile";
     }
+
+
 }

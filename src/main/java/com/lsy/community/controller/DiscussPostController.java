@@ -1,13 +1,8 @@
 package com.lsy.community.controller;
 
-import com.lsy.community.entity.Comment;
-import com.lsy.community.entity.DiscussPost;
-import com.lsy.community.entity.Page;
-import com.lsy.community.entity.User;
-import com.lsy.community.service.CommentService;
-import com.lsy.community.service.DiscussPostService;
-import com.lsy.community.service.LikeService;
-import com.lsy.community.service.UserService;
+import com.lsy.community.entity.*;
+import com.lsy.community.event.EventProducer;
+import com.lsy.community.service.*;
 import com.lsy.community.util.CommunityUtil;
 import com.lsy.community.util.HostHolder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
-import static com.lsy.community.util.CommunityConstant.ENTITY_TYPE_COMMENT;
-import static com.lsy.community.util.CommunityConstant.ENTITY_TYPE_POST;
+import static com.lsy.community.util.CommunityConstant.*;
 
 /**
  * @Author : Lo Shu-ngan
@@ -44,6 +38,13 @@ public class DiscussPostController {
     @Autowired
     private LikeService likeService;
 
+    @Autowired
+    private EventProducer eventProducer;
+
+    @Autowired
+    private ElasticsearchService elasticsearchService;
+
+
     @PostMapping("/add")
     @ResponseBody
     public String addDiscussPost(String title,String content){
@@ -60,6 +61,14 @@ public class DiscussPostController {
         post.setType(0);
         post.setCommentCount(0);
         discussPostService.addDiscussPost(post);
+
+        //触发发帖事件
+        Event event = new Event()
+                .setTopic(TOPIC_PUBLISH)
+                .setUserId(user.getId())
+                .setEntityType(ENTITY_TYPE_POST)
+                .setEntityId(post.getId());
+        eventProducer.fireEvent(event);
 
         return CommunityUtil.getJSONString(0,"发布成功!");
     }

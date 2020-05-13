@@ -28,6 +28,14 @@ spring:
       auto-commit-interval: 3000
     listener:
       missing-topics-fatal: false
+#  es:
+#    host: 127.0.0.1
+#    port: 9300
+  data:
+    elasticsearch:
+      cluster-name: nowcoder
+      cluster-nodes: 127.0.0.1:9300
+
 
 mybatis:
   #这里是实体类所在的包
@@ -44,6 +52,7 @@ server:
   port: 4025
   servlet:
     context-path: /community
+
 
 community:
   path:
