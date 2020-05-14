@@ -2,7 +2,9 @@ package com.lsy.community.service;
 
 import com.lsy.community.entity.LoginTicket;
 import com.lsy.community.entity.User;
+import org.springframework.security.core.GrantedAuthority;
 
+import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -27,4 +29,6 @@ public interface UserService {
     int updateHeader(int userId,String headerUrl);
 
     User findUserByUsername(String username);
+
+    Collection<? extends GrantedAuthority> getAuthorities(int userId);
 }

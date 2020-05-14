@@ -61,4 +61,13 @@ public class HomeController {
         model.addAttribute("discussPosts",discussPosts);
         return "/index";
     }
+
+    /**
+     * 拒绝访问时的提示页面
+     * @return
+     */
+    @GetMapping("/denied")
+    public String getDeniedPage() {
+        return "/error/404";
+    }
 }

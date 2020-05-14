@@ -41,9 +41,6 @@ public class DiscussPostController {
     @Autowired
     private EventProducer eventProducer;
 
-    @Autowired
-    private ElasticsearchService elasticsearchService;
-
 
     @PostMapping("/add")
     @ResponseBody
