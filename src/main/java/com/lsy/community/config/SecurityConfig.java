@@ -61,8 +61,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 )
                 .antMatchers(
                         "/discuss/delete",
-                        "/data/**",
-                        "/actuator/**"
+                        "/data/**"
+                        //"/actuator/**"
                 )
                 .hasAnyAuthority(
                         AUTHORITY_ADMIN
