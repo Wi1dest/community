@@ -6,7 +6,9 @@ import com.lsy.community.event.EventProducer;
 import com.lsy.community.service.LikeService;
 import com.lsy.community.util.CommunityUtil;
 import com.lsy.community.util.HostHolder;
+import com.lsy.community.util.RedisKeyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.lsy.community.util.CommunityConstant.ENTITY_TYPE_POST;
 import static com.lsy.community.util.CommunityConstant.TOPIC_LIKE;
 
 /**
@@ -32,6 +35,9 @@ public class LikeController {
 
     @Autowired
     private EventProducer eventProducer;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     @PostMapping("/like")
     @ResponseBody
@@ -58,6 +64,12 @@ public class LikeController {
                     .setEntityUserId(entityUserId)
                     .setData("postId",postId);
             eventProducer.fireEvent(event);
+        }
+
+        if (entityType == ENTITY_TYPE_POST){
+            //计算帖子分数
+            String redisKey = RedisKeyUtil.getPostScoreKey();
+            redisTemplate.opsForSet().add(redisKey,postId);
         }
 
         return CommunityUtil.getJSONString(0,null,map);

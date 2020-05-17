@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,13 +37,13 @@ public class HomeController {
     private LikeService likeService;
 
     @GetMapping("/index")
-    public String getIndexPage(Model model, Page page){
+    public String getIndexPage(Model model, Page page,@RequestParam(name = "orderMode",defaultValue = "0") int orderMode){
         // 方法调用之前,SpringMVC会自动实例化model和page,而且还会将page注入model
         // 所以在thymeleat中可以直接访问page对象重点呢数据
         page.setRows(discussPostService.findDiscussPostRow(0));
-        page.setPath("/index");
+        page.setPath("/index?orderMode="+ orderMode);
 
-        List<DiscussPost> list = discussPostService.findDiscussPosts(0, page.getOffset(), page.getLimit());
+        List<DiscussPost> list = discussPostService.findDiscussPosts(0, page.getOffset(), page.getLimit(),orderMode);
         List<Map<String,Object>> discussPosts = new ArrayList<>();
         if (list != null) {
             for (DiscussPost disussPost : list){
@@ -59,6 +60,7 @@ public class HomeController {
             }
         }
         model.addAttribute("discussPosts",discussPosts);
+        model.addAttribute("orderMode",orderMode);
         return "/index";
     }
 

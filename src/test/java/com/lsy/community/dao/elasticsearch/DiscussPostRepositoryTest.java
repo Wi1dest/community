@@ -41,15 +41,15 @@ class DiscussPostRepositoryTest {
 
     @Test
     void testInsertList(){
-        discussPostRepository.saveAll(discussPostMapper.selectDiscssPosts(101,0,100));
-        discussPostRepository.saveAll(discussPostMapper.selectDiscssPosts(102,0,100));
-        discussPostRepository.saveAll(discussPostMapper.selectDiscssPosts(103,0,100));
-        discussPostRepository.saveAll(discussPostMapper.selectDiscssPosts(111,0,100));
-        discussPostRepository.saveAll(discussPostMapper.selectDiscssPosts(112,0,100));
-        discussPostRepository.saveAll(discussPostMapper.selectDiscssPosts(131,0,100));
-        discussPostRepository.saveAll(discussPostMapper.selectDiscssPosts(132,0,100));
-        discussPostRepository.saveAll(discussPostMapper.selectDiscssPosts(133,0,100));
-        discussPostRepository.saveAll(discussPostMapper.selectDiscssPosts(134,0,100));
+        discussPostRepository.saveAll(discussPostMapper.selectDiscssPosts(101,0,100,0));
+        discussPostRepository.saveAll(discussPostMapper.selectDiscssPosts(102,0,100,0));
+        discussPostRepository.saveAll(discussPostMapper.selectDiscssPosts(103,0,100,0));
+        discussPostRepository.saveAll(discussPostMapper.selectDiscssPosts(111,0,100,0));
+        discussPostRepository.saveAll(discussPostMapper.selectDiscssPosts(112,0,100,0));
+        discussPostRepository.saveAll(discussPostMapper.selectDiscssPosts(131,0,100,0));
+        discussPostRepository.saveAll(discussPostMapper.selectDiscssPosts(132,0,100,0));
+        discussPostRepository.saveAll(discussPostMapper.selectDiscssPosts(133,0,100,0));
+        discussPostRepository.saveAll(discussPostMapper.selectDiscssPosts(134,0,100,0));
     }
 
     @Test

@@ -24,7 +24,7 @@ class DiscussPostMapperTest {
 
     @Test
     void selectDiscssPosts() {
-        List<DiscussPost> discussPosts = discussPostMapper.selectDiscssPosts(101, 2, 15);
+        List<DiscussPost> discussPosts = discussPostMapper.selectDiscssPosts(101, 2, 15,0);
         for (DiscussPost discussPost : discussPosts){
             System.out.println(discussPost);
         }

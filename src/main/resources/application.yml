@@ -28,9 +28,22 @@ spring:
       auto-commit-interval: 3000
     listener:
       missing-topics-fatal: false
-#  es:
-#    host: 127.0.0.1
-#    port: 9300
+  quartz:
+    job-store-type: jdbc
+    scheduler-name: communityScheduler
+    properties:
+      org:
+        quartz:
+          scheduler:
+            instanceId: AUTO
+          jobStore:
+            class: org.quartz.impl.jdbcjobstore.JobStoreTX
+            driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+            isClustered: true
+          threadPool:
+            class: org.quartz.simpl.SimpleThreadPool
+            threadCount: 5
+            threadPriority: 5
   data:
     elasticsearch:
       cluster-name: nowcoder
@@ -53,6 +66,15 @@ server:
   servlet:
     context-path: /community
 
+wk:
+  image:
+    command: d:/wkhtmltopdf/bin/wkhtmltoimage
+    storage: d:/work/data/wk-images
+
+caffeine:
+  posts:
+    max-size: 15
+    expire-seconds: 180
 
 community:
   path:

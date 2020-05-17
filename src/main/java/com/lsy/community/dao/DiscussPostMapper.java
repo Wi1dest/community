@@ -12,7 +12,7 @@ import java.util.List;
  * @Date 2020/04/25 17:59
  */
 public interface DiscussPostMapper {
-    List<DiscussPost> selectDiscssPosts(int userId, int offset, int limit);
+    List<DiscussPost> selectDiscssPosts(int userId, int offset, int limit,int orderMode);
 
     /**
      * @Param用于给参数取别名,如果只有一个参数,并且在<if>里使用就必须加别名
@@ -30,4 +30,6 @@ public interface DiscussPostMapper {
     int updateType(int id,int type);
 
     int updateStatus(int id,int status);
+
+    int updateScore(int id,double score);
 }

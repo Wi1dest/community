@@ -11,7 +11,7 @@ import java.util.List;
  * @Date 2020/04/25 18:33
  */
 public interface DiscussPostService {
-    List<DiscussPost> findDiscussPosts(int userId,int offset,int limit);
+    List<DiscussPost> findDiscussPosts(int userId,int offset,int limit,int orderMode);
 
     int findDiscussPostRow(int userId);
 
@@ -24,4 +24,6 @@ public interface DiscussPostService {
     int updateType(int id,int tpye);
 
     int updateStatus(int id,int status);
+
+    int updateScore(int id,double score);
 }

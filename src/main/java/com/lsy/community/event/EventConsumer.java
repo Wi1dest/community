@@ -10,9 +10,11 @@ import com.lsy.community.service.MessageService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,6 +38,13 @@ public class EventConsumer {
 
     @Autowired
     private ElasticsearchService elasticsearchService;
+
+    @Value("${wk.image.command}")
+    private String wkImageCommand;
+
+    @Value("${wk.image.storage}")
+    private String wkImageStorage;
+
 
     @KafkaListener(topics = {TOPIC_COMMENT,TOPIC_LIKE,TOPIC_FOLLOW})
     public void handleCommentMessage(ConsumerRecord record){
@@ -112,5 +121,35 @@ public class EventConsumer {
 
         elasticsearchService.deleteDiscussPost(event.getEntityId());
 
+    }
+
+    /**
+     * 消费分享事件
+     * @param record
+     */
+    @KafkaListener(topics = TOPIC_SHARE)
+    public void handleShareMessage(ConsumerRecord record){
+        if (record == null || record.value() == null) {
+            log.error("消息内容为空!");
+            return;
+        }
+
+        Event event = JSONObject.parseObject(record.value().toString(),Event.class);
+        if (event == null) {
+            log.error("消息格式错误!");
+            return;
+        }
+
+        String htmlUrl = (String) event.getData().get("htmlUrl");
+        String fileName = (String) event.getData().get("fileName");
+        String suffix = (String) event.getData().get("suffix");
+
+        String cmd = wkImageCommand + " --quality 75 " + htmlUrl + " " + wkImageStorage + "/" + fileName + suffix;
+        try {
+            Runtime.getRuntime().exec(cmd);
+            log.info("生成长图成功:" + cmd);
+        } catch (IOException e) {
+            log.info("生成长图失败:" + e.getMessage());
+        }
     }
 }
