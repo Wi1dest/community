@@ -36,9 +36,11 @@ public class FollowServiceImpl implements FollowService {
             public Object execute(RedisOperations redisOperations) throws DataAccessException {
                 String followeeKey = RedisKeyUtil.getFolloweeKey(userId,entityType);
                 String followerKey = RedisKeyUtil.getFollowerKey(entityType,entityId);
+                // .multi() 启动事务
                 redisOperations.multi();
                 redisOperations.opsForZSet().add(followeeKey,entityId,System.currentTimeMillis());
                 redisOperations.opsForZSet().add(followerKey,userId,System.currentTimeMillis());
+                // .exec()提交事务
                 return redisOperations.exec();
             }
         });

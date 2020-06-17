@@ -34,15 +34,22 @@ public class LikeServiceImpl implements LikeService {
             public Object execute(RedisOperations redisOperations) throws DataAccessException {
                 String entityLikeKey = RedisKeyUtil.getEntityLikeKey(entityType,entityId);
                 String userLikeKey = RedisKeyUtil.getUserLikeKey(entityUserId);
+                // 检查集合中是否包含某个元素 => 检查这个实体的赞集合中是否包含这个userId点的赞
                 boolean isMember = redisOperations.opsForSet().isMember(entityLikeKey,userId);
+                // .multi() 启动事务
                 redisOperations.multi();
                 if (isMember) {
+                    // 取消赞
                     redisOperations.opsForSet().remove(entityLikeKey,userId);
+                    // 该用户的赞集合数量 -1
                     redisOperations.opsForValue().decrement(userLikeKey);
                 }else {
+                    // 该实体赞 +1
                     redisOperations.opsForSet().add(entityLikeKey,userId);
+                    // 该用户总赞数 +!
                     redisOperations.opsForValue().increment(userLikeKey);
                 }
+                // .exec()提交事务
                 return redisOperations.exec();
             }
         });
